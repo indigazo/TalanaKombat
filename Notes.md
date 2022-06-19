@@ -19,7 +19,7 @@ D : RIGHT
 
 
 ## Moveset
-Tony
+Tonyn
 Combinación 	Energía que quita	Nombre del movimiento
 DSD + P	        3	                Taladoken
 SD + K	        2	                Remuyuken

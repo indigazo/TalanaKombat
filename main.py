@@ -13,16 +13,17 @@ from common.core import Player, read_json_file
 # Globals
 ROOT_JSON_PATH = 'json_files/'
 
-def game_loop(player_1: Player, player_2: Player) -> None:
+def game_loop(player_1: Player, player_2: Player, run_fast: bool = False) -> None:
     """ En el contexto del game loop el player 1 es el que INICIA """
-    print(f"Comienza jugando {player_1.nombre}")
+    print(f"Comienza jugando {player_1.nombre}\n")
     game_over = False
     current_player = player_1   
         
     def press_enter() -> str:
         """Detiene el juego para darle mejor 'feeling'"""
-        print("presione ENTER para continuar")
-        input()
+        if not run_fast:
+            print("presione ENTER para continuar")
+            input()
         
         
     def switch_player(current_player: Player) -> Player:
@@ -39,14 +40,12 @@ def game_loop(player_1: Player, player_2: Player) -> None:
         
     def get_game_winner() -> Player:
         """ Retorna el jugador que gano """
-        return player_1
-        
+        return player_1 if player_2.hp == 0 else player_2        
+    
     
     def ejecutar_jugada(jugada: str) -> None:
-        print(f"Ejecutando tecnica {jugada}")
-        dmg_jugada = current_player.obtener_dmg_jugada(jugada)
-        mensaje_jugada = current_player.obtener_texto_jugada(jugada)                  
-        
+        dmg_jugada, mensaje_jugada = current_player.obtener_data_jugada(jugada)
+
         # Causa el dmg en el otro jugador
         other_player = switch_player(current_player) 
         other_player.hp -= dmg_jugada
@@ -54,39 +53,27 @@ def game_loop(player_1: Player, player_2: Player) -> None:
 
         # Da el mensaje del ataque 
         print(mensaje_jugada)        
-        print(f"{other_player.nombre} recibio {dmg_jugada} de daño")
-        print(f"A {other_player.nombre} le quedan {other_player.hp}/6 HP")
         
         
     def eliminar_jugada(current_player: Player) -> None:
         current_player.movimientos.remove(current_player.movimientos[0])
         current_player.golpes.remove(current_player.golpes[0])
-        print(f"Jugadas disponibles: {current_player.get_jugadas()}")
     
     
     while not game_over:
         # player_1 hace su primera jugada
-        print(f"Turno de {current_player.nombre}")
         current_player_plays = current_player.get_jugadas()
-        print("Jugadas disponibles: ", current_player_plays)
-        press_enter()
         
-        # Ejecuta y borra la jugada que uso 
+        # Ejecuta y borra la jugada que se uso 
         if len(current_player_plays):
-            
-            # Ejecutamos la jugada 
             ejecutar_jugada(current_player_plays[0])
-            
-            # Limpiamos esa jugada del array 
             eliminar_jugada(current_player)
             press_enter()
         
         else:
-            print(f"Player {current_player.nombre} no tiene plays disponibles")
-            game_over = check_game_state()
-            if game_over:
-                break
-            current_player = switch_player(current_player)
+            print(f"Player {current_player.nombre} no le quedan jugadas." + \
+                "Continua el proximo jugador")
+            press_enter()
     
         # Se chequea si ya es hora de game over
         game_over = check_game_state()
@@ -96,12 +83,11 @@ def game_loop(player_1: Player, player_2: Player) -> None:
     
         # proximo player juega 
         current_player = switch_player(current_player)
-        print(f"Cambiamos al {current_player.nombre}")
-        press_enter()
     
-    print("Alguien gano!")
+    print("")
+    print(":: JUEGO TERMINADO ::")
     winner = get_game_winner()
-    winner.mensaje_victoria()
+    print(winner.mensaje_victoria())
 
 
 def get_players_from_json(json_data: Dict) -> Tuple[Player, Player]:
@@ -159,11 +145,12 @@ def choose_first_player(players: Tuple[Player, Player]) -> Tuple[Player]:
     if n_golpes_tonyn != n_golpes_arnaldor: 
         return player_tonyn if n_golpes_tonyn < n_golpes_arnaldor else player_arnaldor
     
-    print("Primero por defecto es el P1 ", player_tonyn.nombre)
+    print("Comenzara el P1 por defecto: ", player_tonyn.nombre)
     return player_tonyn
 
 
 def main() -> None:
+    """El game loop puede correr en modo run_fast para que no tenga las pausas con ENTER"""
     # Obtener game data desde el json
     data = read_json_file(ROOT_JSON_PATH + 'game_1.json')
     players = get_players_from_json(data)
@@ -179,13 +166,15 @@ def main() -> None:
         
         # Comenzar game loop
         second_player = player_arnaldor if starting_player.nombre == "Tonyn" else player_tonyn 
-        game_loop(starting_player, second_player)
         
-    
+        # Se llama al game loop, si se llama con el run_fast, corre sin pausas
+        game_loop(starting_player, second_player, False)
+        
     else:
         print("Se ingreso un JSON con valores incorrectos:\n" + \
             "Verifique tener entre [0, 5] movimientos y " + \
-            "entre [0, 1] golpes en el JSON")    
+            "entre [0, 1] golpes por jugada en el JSON")    
+
 
 if __name__ == "__main__":
     main()
