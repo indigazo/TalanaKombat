@@ -2,7 +2,6 @@
 Funciones genericas, clases, etc
 """
 from dataclasses import dataclass
-from email import message
 from typing import List, Tuple
 import json
 from typing import Dict

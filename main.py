@@ -151,7 +151,7 @@ def choose_first_player(players: Tuple[Player, Player]) -> Tuple[Player]:
 def main() -> None:
     """El game loop puede correr en modo run_fast para que no tenga las pausas con ENTER"""
     # Obtener game data desde el json
-    data = read_json_file(ROOT_JSON_PATH + 'game_1.json')
+    data = read_json_file(ROOT_JSON_PATH + 'game_3.json')
     players = get_players_from_json(data)
     
     if players_are_valid(players):
