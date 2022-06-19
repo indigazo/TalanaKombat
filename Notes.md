@@ -95,7 +95,7 @@ INPUT:
 OUTPUT:
 ➢ Tonyn avanza y da una patada (D + K)
     Arnaldor 5/6 hp
-
+****
 ➢ Arnaldor conecta un Remuyuken (SA + K)
     Tonyn 3/6 hp
 

@@ -6,7 +6,6 @@ Overview Practico:
     > Game_3 gana Arnarlord
 2. Mapear a dataclass para mayor orden y control
 """
-import os
 from typing import Dict, Tuple
 from common.core import Player, read_json_file
 

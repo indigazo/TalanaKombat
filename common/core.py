@@ -131,7 +131,7 @@ class Player():
         return orientacion
  
     
-    def obtener_texto_movimientos(self, jugada: str):
+    def obtener_texto_movimientos(self, jugada: str) -> str:
         message_to_send = ""
         movements = [char for char in jugada if char not in ["P", "K"] ]
         for char in movements: 
