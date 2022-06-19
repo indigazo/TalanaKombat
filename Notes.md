@@ -80,10 +80,12 @@ Inicia el player 1
 
 INPUT:
 {
+    TONYN
     "player1": {
         "movimientos":["D","DSD","S","DSD","SD"], 
         "golpes":["K","P","","K","P"]
     },
+    ARNALDOR
     "player2": {
         "movimientos":["SA","SA","SA","ASA","SA"],
         "golpes":["K","","K","P","P"]
@@ -91,10 +93,22 @@ INPUT:
 } 
 
 OUTPUT:
-➢ Tonyn avanza y da una patada 
-➢ Arnaldor conecta un Remuyuken 
-➢ Tonyn usa un Taladoken 
-➢ Arnaldor se mueve 
-➢ Tonyn le da un puñetazo al pobre Arnaldor 
-➢ Arnaldor conecta un Remuyuken 
-➢ Arnardold Gana la pelea y aun le queda 1 de energía
+➢ Tonyn avanza y da una patada (D + K)
+    Arnaldor 5/6 hp
+
+➢ Arnaldor conecta un Remuyuken (SA + K)
+    Tonyn 3/6 hp
+
+➢ Tonyn usa un Taladoken (DSD + P)
+    Arnaldor 2/6 hp
+
+➢ Arnaldor se mueve (SA)
+    Tonyn 3/6 hp
+
+➢ Tonyn se agacha (S) (El output original decia que le pegaban aqui)
+    Arnaldor 2/6 hp
+
+➢ Arnaldor conecta un Remuyuken (ASAP)
+    Tonyn 0/6 hp
+
+➢ Arnardold Gana la pelea y aun le queda(n) 2 de energía (El output decia 1)
